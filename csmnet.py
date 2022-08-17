@@ -97,7 +97,7 @@ def assp_block(x,numb,is_train):
 def upRsize(x,img_h,img_w):
 		return tf.image.resize_images(x,(img_h,img_w),method=0)
 
-def unet(img,name, output_dim, is_train, alpha=0.01):#288 512
+def csmnet(img,name, output_dim, is_train, alpha=0.01):#288 512
 	with tf.variable_scope(name, reuse=(not is_train)):
 		con1=conBlock(img,16,is_train)
 
