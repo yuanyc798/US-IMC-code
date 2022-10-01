@@ -54,7 +54,7 @@ def network( inputs_img1,output_dim, is_train, alpha=0.01):
     outputs1,outputs2,outputs3,outputs4,outputs=unet(inputs_img1,'fcn1', output_dim, is_train)
     return outputs1,outputs2,outputs3,outputs4,outputs
    
-def get_optimizer(g_loss,beta1=0.4, learning_rate=0.001):
+def get_optimizer(g_loss,beta1=0.9, learning_rate=0.001):
     train_vars = tf.trainable_variables()
     g_vars = [var for var in train_vars ]#if var.name.startswith("generator")
     with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
@@ -164,7 +164,7 @@ for it in range(0,nt):
 		batch_size =3
 		epochs =100
 		learning_rate = 0.001
-		beta1 = 0.4
+		beta1 = 0.9
 		print('----------image  model:',fold_test)
 		def train(data_shape, batch_size,augment):
 			global rocmatrix   
