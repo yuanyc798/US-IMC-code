@@ -51,7 +51,7 @@ def upRsize(x,img_h,img_w):
 		return tf.image.resize_images(x,(img_h,img_w),method=0)
 
 def network( inputs_img1,output_dim, is_train, alpha=0.01):
-    outputs1,outputs2,outputs3,outputs4,outputs=unet(inputs_img1,'fcn1', output_dim, is_train)
+    outputs1,outputs2,outputs3,outputs4,outputs=csmnet(inputs_img1,'fcn1', output_dim, is_train)
     return outputs1,outputs2,outputs3,outputs4,outputs
    
 def get_optimizer(g_loss,beta1=0.9, learning_rate=0.001):
