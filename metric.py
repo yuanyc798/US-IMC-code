@@ -184,8 +184,8 @@ for k in range(100):
             diceg+=2*cc/(len(mgr[mgr==1])+len(prer[prer==1]))
 
     f1+=2*recal2*prec2/(recal2+prec2)
-    Precision+=recal2
-    Recall+=prec2
+    Precision+=prec2
+    Recall+=recal2
            
     ma=mask.astype(np.float32)-pre.astype(np.float32)
     aa = len(ma[ma==0])
