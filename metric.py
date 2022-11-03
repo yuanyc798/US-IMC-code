@@ -137,8 +137,8 @@ for k in range(100):
     paths='./100fcn db_wloss/'
     pre= cv2.imread(paths+str(k+1)+'.tif', 2)//100#
 
-    ll1=len(mask[mask==1])
-    ll2=len(pre[pre==1])
+    ll1=len(mask[mask==1])+len(mask[mask==2])
+    ll2=len(pre[pre==1])+len(pre[pre==2])
     FN,FP,TP,TN=0   
     
     if len(mask[mask==1])>0:
@@ -208,6 +208,4 @@ print('Recall:',Recall/100)
 print('Precision:',Precision/100)
 print('F1:',f1/100)
 
-#blandaltm(np.array(ddc),np.array(ones))
-#lregress(np.array(ones),np.array(ddc))
 
