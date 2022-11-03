@@ -143,7 +143,7 @@ for it in range(0,nt):
 		for i in range(0,ns*it):
 			id_img_train.append(trainimage+str(i+1)+r'.jpg')
 
-		id_img_train.append(trainimage+str(ns*(it+1)+9)+r'.jpg')
+		id_img_train.append(trainimage+str(ns*(it+1)+10)+r'.jpg')
 		for i in range(ns*(it+2),100):
 			id_img_train.append(trainimage+str(i+1)+r'.jpg')
             
@@ -203,5 +203,4 @@ for it in range(0,nt):
                 
 		with tf.Graph().as_default():
 			train([3, 320, 512,3], batch_size,True)
-ROC()
 
