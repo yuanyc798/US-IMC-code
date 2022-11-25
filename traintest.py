@@ -17,7 +17,7 @@ from csmnet import *
 from loss import *
 from save import *
 from tensorflow.keras.losses import binary_crossentropy,categorical_crossentropy
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 print("TensorFlow Version: {}".format(tf.__version__))
 import time
 
@@ -98,7 +98,7 @@ def ModelVal(sess,saver,id_img_val,inputs_img1,lab_s,dicei,path):
 					else:
 						print('val_dice:',dicev,'max dice:',dicei)
 					return dicei                                                       
-def Modeltst(sess,saver,id_img_test,inputs_img1,lab_s,fold_test,path):
+def Modeltst(sess,saver,id_img_test,inputs_img1,lab_s,path):
 				#global path
 				saver.restore(sess,path)
 				V = [((skimage.io.imread(x))) for x in id_img_test]
@@ -158,8 +158,7 @@ def train(data_shape, batch_size,augment):
 				sess.run(tf.global_variables_initializer())
 				saver = tf.train.Saver()
 				seq = get_seq()
-				path='./result/tmodels.ckpt'#tmodelx2
-				#epochs=100
+				path='./result/tmodels'+str(fold_test)+'.ckpt'#tmodelx2
 				for e in range(epochs):
 					shuffle(id_img_train)
 					train_loss_g=0
@@ -178,7 +177,7 @@ def train(data_shape, batch_size,augment):
 						  " Loss: {:.4f},". format(train_loss_g*(batch_size)/len(id_img_train)))
 					dicei=ModelVal(sess,saver,id_img_val,inputs_img1,lab_s,dicei,path)#validation
 
-				rocmatrix+=Modeltst(sess,saver,id_img_test,inputs_img1,lab_s,fold_test,path)
+				rocmatrix+=Modeltst(sess,saver,id_img_test,inputs_img1,lab_s,path)
                 
-		with tf.Graph().as_default():
-			train([3, 320, 512,3], batch_size,True)
+with tf.Graph().as_default():
+		train([3, 320, 512,3], batch_size,True)
