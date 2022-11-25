@@ -38,7 +38,7 @@ def conBlock(img,channel,is_train):
         layer2 = tf.nn.relu(layer1)#tf.maximum(alpha * layer1, layer1)
         return layer2        
 
-def spation(x):
+def tsam(x):
     num=int(x.shape[3])
     sm =tf.reduce_mean(x, axis=-1)
     sn =tf.reduce_max(x, axis=-1)    
@@ -54,7 +54,7 @@ def spation(x):
     return scale   
            
                 		
-def assp_block(x,numb,is_train):
+def cdcfr(x,numb,is_train):
         numb=int(numb/2)
         layer1 = tf.layers.conv2d(x,numb,3, strides=1, padding='same')
         layer1 = tf.layers.batch_normalization(layer1, training=is_train)
@@ -136,7 +136,7 @@ def csmnet(img,name, output_dim, is_train, alpha=0.01):#288 512
 		mg5c=tf.concat([mg5c,pool5], axis=-1)		
 		con=conBlock(mg5c,128,is_train)#
         
-		con=assp_block(con,128,is_train)
+		con=cdcfr(con,128,is_train)
    
 		x0= tf.layers.conv2d(con,output_dim,1, strides=1, padding='same')
 		outputs0=tf.nn.softmax(x0)   
@@ -144,7 +144,7 @@ def csmnet(img,name, output_dim, is_train, alpha=0.01):#288 512
 		layer2 =tf.image.resize_images(con,(h//16,w//16),method=0) 
 		conc1=tf.concat([(con5),layer2], axis=-1)   
 		conde1=conBlock(conc1,96,is_train)
-		conde1=spation(conde1)
+		conde1=tsam(conde1)
 		x1=tf.image.resize_images(conde1,(h,w),method=0) 
 		x1= tf.layers.conv2d(conde1,output_dim,1, strides=1, padding='same')
 		outputs1=tf.nn.softmax(x1)		
@@ -152,7 +152,7 @@ def csmnet(img,name, output_dim, is_train, alpha=0.01):#288 512
 		layer3 =tf.image.resize_images(conde1,(h//8,w//8),method=0)
 		conc2=tf.concat([(con4),layer3], axis=-1) 
 		conde2=conBlock(conc2,80,is_train)
-		conde2=spation(conde2)
+		conde2=tsam(conde2)
 		x2=tf.image.resize_images(conde2,(h,w),method=0)
 		x2= tf.layers.conv2d(conde2,output_dim,1, strides=1, padding='same')
 		outputs2=tf.nn.softmax(x2)
@@ -160,7 +160,7 @@ def csmnet(img,name, output_dim, is_train, alpha=0.01):#288 512
 		layer4 =tf.image.resize_images(conde2,(h//4,w//4),method=0)
 		conc3=tf.concat([(con3),layer4], axis=-1) 
 		conde3=conBlock(conc3,48,is_train)
-		conde3=spation(conde3)
+		conde3=tsam(conde3)
 		x3=tf.image.resize_images(conde3,(h,w),method=0)
 		x3= tf.layers.conv2d(conde3,output_dim,1, strides=1, padding='same')
 		outputs3=tf.nn.softmax(x3)
@@ -168,7 +168,7 @@ def csmnet(img,name, output_dim, is_train, alpha=0.01):#288 512
 		layer5 =tf.image.resize_images(conde3,(h//2,w//2),method=0)
 		conc4=tf.concat([(con2),layer5], axis=-1)   
 		conde4=conBlock(conc4,32,is_train)
-		conde4=spation(conde4)
+		conde4=tsam(conde4)
 		x4=tf.image.resize_images(conde4,(h,w),method=0)
 		x4= tf.layers.conv2d(conde4,output_dim,1, strides=1, padding='same')
 		outputs4=tf.nn.softmax(x4)
@@ -176,7 +176,7 @@ def csmnet(img,name, output_dim, is_train, alpha=0.01):#288 512
 		layer6 =tf.image.resize_images(conde4,(h,w),method=0) 
 		conc5=tf.concat([(con1),layer6], axis=-1) 
 		conde5=conBlock(conc5,32,is_train)
-		conde5=spation(conde5)	
+		conde5=tsam(conde5)	
 		x5=tf.image.resize_images(conde5,(h,w),method=0)	
 		x= tf.layers.conv2d(x5,output_dim,1, strides=1, padding='same')
 		outputs=tf.nn.softmax(x)#outputs = tf.tanh(logits)  tf.nn.softmax(x)
