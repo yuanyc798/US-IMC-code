@@ -129,44 +129,23 @@ def ROC():
          f.write(',')     
       f.write('\n')        
 
-trainimage='./100imt/'
-nt=10
-ns=10
-path_save = r'./100cfm test/'
+path_save = r'./100test/'
 #global rocmatrix
 rocmatrix=np.zeros((4,30))
-for it in range(0,nt):
-		fold_test=it+1
-		id_img_train=[]
-		id_img_test=[]
-		id_img_val=[]   
-		for i in range(0,ns*it):
-			id_img_train.append(trainimage+str(i+1)+r'.jpg')
 
-		id_img_train.append(trainimage+str(ns*(it+1)+10)+r'.jpg')
-		for i in range(ns*(it+2),100):
-			id_img_train.append(trainimage+str(i+1)+r'.jpg')
-            
-		if it==9:
-			id_img_train=[]
-			for i in range(9,ns*it):
-				id_img_train.append(trainimage+str(i+1)+r'.jpg')   
-			for i in range(0,9):
-				id_img_val.append(trainimage+str(i+1)+r'.jpg')
-		if it<9:
-			for i in range(0,9):
-				id_img_val.append(trainimage+str(ns*(it+1)+i+1)+r'.jpg')      
-		for i in range(0,ns):
-			id_img_test.append(trainimage+str(ns*it+i+1)+r'.jpg')
-		print('train:',len(id_img_train))
-		print('val:',len(id_img_val))
-		print('tst:',len(id_img_test))
-		batch_size =3
-		epochs =100
-		learning_rate = 0.001
-		beta1 = 0.9
-		print('----------image  model:',fold_test)
-		def train(data_shape, batch_size,augment):
+id_img_train='./train/'
+id_img_test='./tst/'
+id_img_val='./val/'  
+
+print('train:',len(id_img_train))
+print('val:',len(id_img_val))
+print('tst:',len(id_img_test))
+batch_size =3#8
+epochs =100
+learning_rate = 0.001
+beta1 = 0.9
+
+def train(data_shape, batch_size,augment):
 			global rocmatrix   
 			losses = []
 			dicei=0
@@ -179,7 +158,7 @@ for it in range(0,nt):
 				sess.run(tf.global_variables_initializer())
 				saver = tf.train.Saver()
 				seq = get_seq()
-				path='./result/tmodels'+str(fold_test)+'.ckpt'#tmodelx2
+				path='./result/tmodels.ckpt'#tmodelx2
 				#epochs=100
 				for e in range(epochs):
 					shuffle(id_img_train)
@@ -203,4 +182,3 @@ for it in range(0,nt):
                 
 		with tf.Graph().as_default():
 			train([3, 320, 512,3], batch_size,True)
-
