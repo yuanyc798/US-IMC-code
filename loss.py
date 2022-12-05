@@ -90,11 +90,8 @@ def get_loss(inputs_lab1,inputs_img1,output_dim, smooth=0.1):
     
 def show_generator_output(sess,Va_images,inputs_img1,output_dim):
     cmap = 'Greys_r'
-    start = time.perf_counter()
-    sp1,sp2,sp3,sp4,sp5= sess.run(network(inputs_img1,output_dim, False),feed_dict={inputs_img1: Va_images}) 
-    elapsed = time.perf_counter() - start 
-    print('time:',elapsed)                    
-    return sp5#(sp1+sp2+sp3+sp4+sp5)/5
+    sp1,sp2,sp3,sp4,sp5= sess.run(network(inputs_img1,output_dim, False),feed_dict={inputs_img1: Va_images})               
+    return sp5
     
 
      
