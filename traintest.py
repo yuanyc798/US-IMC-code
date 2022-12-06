@@ -108,7 +108,7 @@ def Modeltst(sess,saver,id_img_test,inputs_img1,lab_s,path):
 				Yv_hot = [to_categorical(y,lab_s) for y in Yv]
                 
 				samples = show_generator_output(sess,tst_images,inputs_img1,lab_s)
-				matrix=save_images(samples,fold_test,path_save,Yv_hot)
+				matrix=save_images(samples,id_img_test,path_save,Yv_hot)
 				return matrix
 def ROC():
     rmatrix=np.zeros((2,30))
@@ -133,9 +133,9 @@ path_save = r'./100test/'
 #global rocmatrix
 rocmatrix=np.zeros((4,30))
 
-id_img_train='./train/'
-id_img_test='./tst/'
-id_img_val='./val/'  
+id_img_train=glob('./train/*.jpg')
+id_img_test=glob('./tst/*.jpg')
+id_img_val=glob('./val/*.jpg')  
 
 print('train:',len(id_img_train))
 print('val:',len(id_img_val))
