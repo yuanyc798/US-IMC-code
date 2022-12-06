@@ -20,7 +20,7 @@ from tensorflow.keras.losses import binary_crossentropy,categorical_crossentropy
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 print("TensorFlow Version: {}".format(tf.__version__))
 import time
-
+from glob import glob
 def get_seq():
      sometimes = lambda aug: iaa.Sometimes(0.3, aug)
      seq = iaa.Sequential([iaa.Fliplr(0.4),iaa.Flipud(0.3),sometimes(iaa.Crop()),
@@ -177,7 +177,7 @@ def train(data_shape, batch_size,augment):
 						  " Loss: {:.4f},". format(train_loss_g*(batch_size)/len(id_img_train)))
 					dicei=ModelVal(sess,saver,id_img_val,inputs_img1,lab_s,dicei,path)#validation
 
-				rocmatrix+=Modeltst(sess,saver,id_img_test,inputs_img1,lab_s,path)
+				rocmatrix=Modeltst(sess,saver,id_img_test,inputs_img1,lab_s,path)
                 
 with tf.Graph().as_default():
 		train([3, 320, 512,3], batch_size,True)
